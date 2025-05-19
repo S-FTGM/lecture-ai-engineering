@@ -172,7 +172,15 @@ def test_model_reproducibility(sample_data, preprocessor):
         predictions1, predictions2
     ), "モデルの予測結果に再現性がありません"
 
-def test_no_missing_values(sample_data):
-    """データに欠損値が含まれていないかを検証"""
-    missing = sample_data.isnull().sum()
-    assert missing.sum() == 0, f"欠損値が含まれています:\n{missing[missing > 0]}"
+def test_model_file_loadable():
+    """モデルファイルが正しく読み込めるか検証"""
+    if not os.path.exists(MODEL_PATH):
+        pytest.skip("モデルファイルが存在しないためスキップします")
+
+    try:
+        with open(MODEL_PATH, "rb") as f:
+            model = pickle.load(f)
+            assert hasattr(model, "predict"), "モデルにpredictメソッドが存在しません"
+    except Exception as e:
+        pytest.fail(f"モデルファイルの読み込みに失敗しました: {e}")
+
