@@ -172,6 +172,7 @@ def test_model_reproducibility(sample_data, preprocessor):
         predictions1, predictions2
     ), "モデルの予測結果に再現性がありません"
 
+
 def test_model_file_loadable():
     """モデルファイルが正しく読み込めるか検証"""
     if not os.path.exists(MODEL_PATH):
@@ -183,4 +184,3 @@ def test_model_file_loadable():
             assert hasattr(model, "predict"), "モデルにpredictメソッドが存在しません"
     except Exception as e:
         pytest.fail(f"モデルファイルの読み込みに失敗しました: {e}")
-
